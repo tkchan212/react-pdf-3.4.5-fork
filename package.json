@@ -16,6 +16,7 @@
     "build": "lerna run build",
     "watch": "lerna run watch --parallel",
     "prepublish": "lerna run build",
+    "export": "sh export-renderer.sh",
     "lint": "eslint packages",
     "test": "vitest",
     "dev": "lerna run dev --scope @react-pdf/examples",
