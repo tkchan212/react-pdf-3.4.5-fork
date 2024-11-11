@@ -18,6 +18,7 @@ let renderer;
 const events = {};
 
 const pdf = (initialValue) => {
+  console.log('using custom react-pdf');
   const onChange = () => {
     const listeners = events.change?.slice() || [];
     for (let i = 0; i < listeners.length; i += 1) listeners[i]();
