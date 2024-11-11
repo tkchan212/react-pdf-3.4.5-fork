@@ -6,10 +6,21 @@ const getBreak = (node) => node.props?.break || false;
 
 const getMinPresenceAhead = (node) => node.props?.minPresenceAhead || 0;
 
-const getFurthestEnd = (elements) =>
-  Math.max(...elements.map((node) => node.box.top + node.box.height));
+const getFurthestEnd = (elements) => {
+  return Math.max(...elements.map((node) => {
+    if (!node?.box) {
+      console.error('shouldBreak getFurthestEnd: Invalid node or box', { node, box: node?.box });
+      return 0;
+    }
+    return node.box.top + node.box.height;
+  }));
+};
 
 const getEndOfMinPresenceAhead = (child) => {
+  if (!child?.box) {
+    console.error('shouldBreak getEndOfMinPresenceAhead: Invalid node or box', { node: child, box: child?.box });
+    return 0;
+  }
   return (
     child.box.top +
     child.box.height +
@@ -27,7 +38,12 @@ const getEndOfPresence = (child, futureElements) => {
 };
 
 const shouldBreak = (child, futureElements, height) => {
-  if (child.props?.fixed) return false;
+  if (child?.props?.fixed) return false;
+
+  if (!child?.box) {
+    console.error('shouldBreak: Invalid node or box', { node: child, box: child?.box });
+    return false;
+  }
 
   const shouldSplit = height < child.box.top + child.box.height;
   const canWrap = getWrap(child);

@@ -18,6 +18,10 @@ const isRecursiveNode = (node) => node.type !== P.Text && node.type !== P.Svg;
 const renderChildren = (ctx, node, options) => {
   ctx.save();
 
+  if (!node || !node.box) {
+    console.error('renderNode renderChildren: Invalid node or box', { node, box: node?.box });
+  }
+  
   if (node.box) {
     ctx.translate(node.box.left, node.box.top);
   }

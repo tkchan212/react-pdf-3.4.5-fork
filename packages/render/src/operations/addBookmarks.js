@@ -6,6 +6,12 @@ const addNodeBookmark = (ctx, node, pageNumber, registry) => {
   if (bookmark) {
     const { title, parent, expanded, zoom, fit } = bookmark;
     const outline = registry[parent] || ctx.outline;
+    
+    if (!node || !node.box) {
+      console.error('addBookmarks addNodeBookmark: Invalid node or box', { node, box: node?.box });
+      return;
+    }
+    
     const top = bookmark.top || node.box.top;
     const left = bookmark.left || node.box.left;
     const instance = outline.addItem(title, {

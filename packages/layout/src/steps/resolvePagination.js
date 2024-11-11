@@ -26,7 +26,13 @@ const SAFETY_THRESHOLD = 0.001;
 const assingChildren = (children, node) =>
   Object.assign({}, node, { children });
 
-const getTop = (node) => node.box?.top || 0;
+const getTop = (node) => {
+  if (!node?.box) {
+    console.error('resolvePagination getTop: Invalid node or box', { node, box: node?.box });
+    return 0;
+  }
+  return node.box.top || 0;
+};
 
 const allFixed = (nodes) => nodes.every(isFixed);
 
@@ -51,6 +57,11 @@ const splitNodes = (height, contentArea, nodes) => {
 
   for (let i = 0; i < nodes.length; i += 1) {
     const child = nodes[i];
+    if (!child?.box) {
+      console.error('resolvePagination splitNodes: Invalid node or box', { node: child, box: child?.box });
+      continue;
+    }
+    
     const futureNodes = nodes.slice(i + 1);
     const futureFixedNodes = futureNodes.filter(isFixed);
 
